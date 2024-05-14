@@ -41,7 +41,9 @@ def generate_lots(N: int, H: int, W: int, T: int, save_dir: Path) -> None:
 def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
     yards = []
     for _ in range(M):
-        yards.append({"height": H, "width": W})
+        height = random.randint(int(0.7 * H), H)
+        width = random.randint(int(0.7 * W), W)
+        yards.append({"height": height, "width": width})
 
     yards_df = pd.DataFrame(yards)
     yards_df.to_csv(save_dir / "yards.csv", index=False)
@@ -50,7 +52,7 @@ def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
 
 if __name__ == "__main__":
     SEED = 0
-    N = 70
+    N = 60
     M = 2
     H = 50
     W = 20

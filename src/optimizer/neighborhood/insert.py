@@ -16,7 +16,9 @@ def insert(state: State) -> bool:
     )
     cumulative_sums[state.lots[index].assignment] -= state.lots[index].area
 
-    new_assignment = np.argmin(cumulative_sums)
+    values = [yard.area for yard in state.yards] - cumulative_sums
+
+    new_assignment = np.argmax(values)
 
     if cumulative_sums[new_assignment] != cumulative_sums[state.lots[index].assignment]:
         for t in range(state.lots[index].start_time, state.lots[index].end_time + 1):

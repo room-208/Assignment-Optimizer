@@ -3,6 +3,7 @@ from pathlib import Path
 
 import matplotlib.animation as animation
 import matplotlib.pyplot as plt
+import numpy as np
 
 from visualizer.cumulative_sum import make_cumulative_sums
 from visualizer.reader import read_params
@@ -30,7 +31,7 @@ def vizualize_gif(
             axes[i].clear()
             axes[i].bar(dates, cumulative_sum, color="skyblue")
             axes[i].plot(dates, [yard_areas[i]] * len(dates), color="r")
-            axes[i].set_ylim(0, yard_areas[i] * 1.5)
+            axes[i].set_ylim(0, np.max(yard_areas) * 1.5)
             axes[i].set_title(f"Yard {i} Stage {stage}")
             axes[i].set_xlabel("Date")
             axes[i].set_ylabel("Area")
@@ -51,4 +52,4 @@ if __name__ == "__main__":
     DATA_DIR = Path("data")
     OUTPUTS_DIR = Path("outputs")
 
-    vizualize_gif(DATA_DIR, OUTPUTS_DIR, 2, 46)
+    vizualize_gif(DATA_DIR, OUTPUTS_DIR, 2, 45)
