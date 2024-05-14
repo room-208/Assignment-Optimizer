@@ -56,8 +56,3 @@ class State:
             outputs_dir / f"assignments_stage_{stage}.csv", index=False
         )
         print(f"Generated assignments_stage_{stage}.csv in {outputs_dir}.")
-
-
-if __name__ == "__main__":
-    state = State(Path("data"))
-    state.writeAssignments(Path("outputs"), 0)
