@@ -24,6 +24,7 @@ class State:
         self.readYards(save_dir / "yards.csv")
 
         self.cumulative_sums = np.zeros((self.M, self.T))
+        self.updateCumulativeSums()
 
     def readParams(self, file_path: Path) -> None:
         with open(file_path, "r") as file:
@@ -44,6 +45,15 @@ class State:
     def readYards(self, file_path: Path) -> None:
         df = pd.read_csv(file_path)
         self.yards = [Yard(row["height"], row["width"]) for _, row in df.iterrows()]
+
+    def updateCumulativeSums(self) -> None:
+        for lot in self.lots:
+            self.cumulative_sums[lot.assignment][lot.start_time] += lot.area
+            if lot.end_time + 1 < self.T:
+                self.cumulative_sums[lot.assignment][lot.end_time + 1] -= lot.area
+
+        for i in range(len(self.cumulative_sums)):
+            self.cumulative_sums[i] = np.cumsum(self.cumulative_sums[i])
 
     def writeAssignments(self, outputs_dir: Path, stage: int) -> None:
         assignments = []

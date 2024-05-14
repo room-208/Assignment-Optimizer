@@ -31,6 +31,4 @@ def make_cumulative_sums(data_dir: Path, outputs_dir: Path, stage: int) -> np.nd
     for i in range(len(cumulative_sums)):
         cumulative_sums[i] = np.cumsum(cumulative_sums[i])
 
-    cumulative_sums = np.array(cumulative_sums)
-
     return cumulative_sums
