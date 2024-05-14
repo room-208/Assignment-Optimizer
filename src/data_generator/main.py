@@ -2,7 +2,13 @@ import json
 import random
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
+
+
+def seed_everything(seed: int) -> None:
+    random.seed(seed)
+    np.random.seed(seed)
 
 
 def save_params(params: dict, save_dir: Path) -> None:
@@ -43,13 +49,15 @@ def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
 
 
 if __name__ == "__main__":
-    N = 75
+    SEED = 0
+    N = 60
     M = 2
-    H = 500
-    W = 100
-    T = 100
+    H = 50
+    W = 20
+    T = 10
     SAVE_DIR = Path("data")
 
+    seed_everything(SEED)
     save_params({"N": N, "M": M, "H": H, "W": W, "T": T}, SAVE_DIR)
     generate_lots(N, H // 2, W // 2, T, SAVE_DIR)
     generate_yards(M, H, W, SAVE_DIR)

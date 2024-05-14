@@ -13,7 +13,7 @@ def greedy_by_sorted_volume(state: State) -> State:
     for i, lot in enumerate(state.lots):
         cumulative_sums = np.max(
             state.cumulative_sums[:, lot.start_time : lot.end_time + 1], axis=1
-        )
+        ) + np.random.randn(state.M)
         assignment = np.argmin(cumulative_sums)
 
         state.lots[i].assignment = assignment
