@@ -44,7 +44,19 @@ class State:
         df = pd.read_csv(file_path)
         self.yards = [Yard(row["height"], row["width"]) for _, row in df.iterrows()]
 
+    def writeAssignments(self, outputs_dir: Path, stage: int) -> None:
+        assignments = []
+        for lot in self.lots:
+            assignment = {"assignment": lot.assignment}
+            assignments.append(assignment)
+
+        assignments_df = pd.DataFrame(assignments)
+        assignments_df.to_csv(
+            outputs_dir / f"assignments_stage_{stage}.csv", index=False
+        )
+        print(f"Generated assignments_stage_{stage}.csv in {outputs_dir}.")
+
 
 if __name__ == "__main__":
     state = State(Path("data"))
-    pass
+    state.writeAssignments(Path("outputs"), 0)
