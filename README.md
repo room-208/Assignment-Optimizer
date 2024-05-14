@@ -3,7 +3,7 @@
 ## Overview
 
 ## Requirement
-- Ubuntu 
+- Ubuntu 20.04 LTS
 - Python 3.10
 
 ## Setup
