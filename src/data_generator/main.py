@@ -50,11 +50,11 @@ def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
 
 if __name__ == "__main__":
     SEED = 0
-    N = 60
+    N = 70
     M = 2
     H = 50
     W = 20
-    T = 10
+    T = 20
     SAVE_DIR = Path("data")
 
     seed_everything(SEED)

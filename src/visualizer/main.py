@@ -51,4 +51,4 @@ if __name__ == "__main__":
     DATA_DIR = Path("data")
     OUTPUTS_DIR = Path("outputs")
 
-    vizualize_gif(DATA_DIR, OUTPUTS_DIR, 2, 2)
+    vizualize_gif(DATA_DIR, OUTPUTS_DIR, 2, 46)

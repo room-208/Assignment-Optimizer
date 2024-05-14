@@ -26,6 +26,8 @@ class State:
         self.cumulative_sums = np.zeros((self.M, self.T))
         self.updateCumulativeSums()
 
+        self.write_count = 0
+
     def readParams(self, file_path: Path) -> None:
         with open(file_path, "r") as file:
             params = json.load(file)
@@ -55,7 +57,7 @@ class State:
         for i in range(len(self.cumulative_sums)):
             self.cumulative_sums[i] = np.cumsum(self.cumulative_sums[i])
 
-    def writeAssignments(self, outputs_dir: Path, stage: int) -> None:
+    def writeAssignments(self, outputs_dir: Path) -> None:
         assignments = []
         for lot in self.lots:
             assignment = {"assignment": lot.assignment}
@@ -63,6 +65,8 @@ class State:
 
         assignments_df = pd.DataFrame(assignments)
         assignments_df.to_csv(
-            outputs_dir / f"assignments_stage_{stage}.csv", index=False
+            outputs_dir / f"assignments_stage_{self.write_count}.csv", index=False
         )
-        print(f"Generated assignments_stage_{stage}.csv in {outputs_dir}.")
+        print(f"Generated assignments_stage_{self.write_count}.csv in {outputs_dir}.")
+
+        self.write_count += 1

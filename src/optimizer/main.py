@@ -4,7 +4,8 @@ from pathlib import Path
 import numpy as np
 
 from optimizer.data_structure.state import State
-from optimizer.greedy.greedy_by_sorted_area import greedy_by_sorted_area
+from optimizer.neighborhood.insert import insert
+from optimizer.neighborhood.swap import swap
 
 
 def seed_everything(seed: int) -> None:
@@ -20,7 +21,14 @@ if __name__ == "__main__":
     seed_everything(SEED)
 
     state = State(DATA_DIR)
-    state.writeAssignments(OUTPUTS_DIR, 0)
+    state.writeAssignments(OUTPUTS_DIR)
 
-    state = greedy_by_sorted_area(state)
-    state.writeAssignments(OUTPUTS_DIR, 1)
+    for i in range(500):
+        r = random.randint(0, 1)
+        if r == 0:
+            is_transitioned = insert(state)
+        elif r == 1:
+            is_transitioned = insert(state)
+
+        if is_transitioned:
+            state.writeAssignments(OUTPUTS_DIR)
