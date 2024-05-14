@@ -1,6 +1,7 @@
 import json
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 from optimizer.data_structure.lot import Lot
@@ -22,7 +23,7 @@ class State:
         self.yards: list[Yard]
         self.readYards(save_dir / "yards.csv")
 
-        self.cumulative_sums: list[list[int]] = [[0] * self.T] * self.M
+        self.cumulative_sums = np.zeros((self.M, self.T))
 
     def readParams(self, file_path: Path) -> None:
         with open(file_path, "r") as file:

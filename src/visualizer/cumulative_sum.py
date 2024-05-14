@@ -15,7 +15,7 @@ def make_cumulative_sums(data_dir: Path, outputs_dir: Path, stage: int) -> np.nd
     merged_df = pd.merge(lots_df, assignments_df, left_index=True, right_index=True)
     merged_df["area"] = merged_df["height"] * merged_df["width"]
 
-    cumulative_sums = [[0] * T for _ in range(M)]
+    cumulative_sums = np.zeros((M, T))
 
     for _, row in merged_df.iterrows():
         assignment = row["assignment"]
