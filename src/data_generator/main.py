@@ -1,7 +1,14 @@
+import json
 import random
 from pathlib import Path
 
 import pandas as pd
+
+
+def save_params(params: dict, save_dir: Path) -> None:
+    with open(save_dir / "params.json", "w") as file:
+        json.dump(params, file, indent=4)
+    print("Save params")
 
 
 def generate_lots(N: int, H: int, W: int, T: int, save_dir: Path) -> None:
@@ -43,5 +50,6 @@ if __name__ == "__main__":
     T = 100
     SAVE_DIR = Path("../../data")
 
+    save_params({"N": N, "M": M, "H": H, "W": W, "T": T}, SAVE_DIR)
     generate_lots(N, H // 2, W // 2, T, SAVE_DIR)
     generate_yards(M, H, W, SAVE_DIR)
