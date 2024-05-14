@@ -21,7 +21,7 @@ def show_schedules(
         axes[i].set_ylabel("Area")
         axes[i].grid(True, axis="y")
 
-    for j in range(i + 1, len(axes)):
+    for j in range(M, len(axes)):
         fig.delaxes(axes[j])
 
     plt.tight_layout()
