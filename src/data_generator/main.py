@@ -43,12 +43,12 @@ def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
 
 
 if __name__ == "__main__":
-    N = 100
+    N = 75
     M = 2
     H = 500
     W = 100
     T = 100
-    SAVE_DIR = Path("../../data")
+    SAVE_DIR = Path("data")
 
     save_params({"N": N, "M": M, "H": H, "W": W, "T": T}, SAVE_DIR)
     generate_lots(N, H // 2, W // 2, T, SAVE_DIR)
