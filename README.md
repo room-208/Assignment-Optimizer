@@ -2,6 +2,7 @@
 
 ## Overview
 山積み計画を平準化する割当問題の最適化を、局所探索法で実装したリポジトリです。
+
 <img src="./gifs/animation.gif" width="80%">
 
 ## Requirement
