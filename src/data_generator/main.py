@@ -2,7 +2,8 @@ import random
 
 import pandas as pd
 
-from common.const import LOTS_CSV_PATH, SEED, YARDS_CSV_PATH, H, M, N, T, W
+from common.cleanup import cleanup_csv
+from common.const import DATA_DIR, LOTS_CSV_PATH, SEED, YARDS_CSV_PATH, H, M, N, T, W
 from common.seed import seed_everything
 
 
@@ -41,5 +42,8 @@ def generate_yards() -> None:
 
 if __name__ == "__main__":
     seed_everything(SEED)
+
+    cleanup_csv(DATA_DIR)
+
     generate_lots()
     generate_yards()
