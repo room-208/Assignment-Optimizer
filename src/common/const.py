@@ -16,3 +16,10 @@ ASSIGNMENTS_CSV_PATH = (
     lambda stage: OUTPUTS_DIR / f"assignments_stage_{str(stage).zfill(4)}.csv"
 )
 ANIMATION_GIT_PATH = OUTPUTS_DIR / "animation.gif"
+
+SEED = 0
+N = 60
+M = 2
+H = 50
+W = 20
+T = 20

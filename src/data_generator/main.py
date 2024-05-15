@@ -1,23 +1,12 @@
-import json
 import random
-from pathlib import Path
 
-import numpy as np
 import pandas as pd
 
-
-def seed_everything(seed: int) -> None:
-    random.seed(seed)
-    np.random.seed(seed)
+from common.const import LOTS_CSV_PATH, SEED, YARDS_CSV_PATH, H, M, N, T, W
+from common.seed import seed_everything
 
 
-def save_params(params: dict, save_dir: Path) -> None:
-    with open(save_dir / "params.json", "w") as file:
-        json.dump(params, file, indent=4)
-    print("Save params")
-
-
-def generate_lots(N: int, H: int, W: int, T: int, save_dir: Path) -> None:
+def generate_lots() -> None:
     lots = []
     for _ in range(N):
         start_time = random.randint(0, T - 1)
@@ -34,11 +23,11 @@ def generate_lots(N: int, H: int, W: int, T: int, save_dir: Path) -> None:
         )
 
     lots_df = pd.DataFrame(lots)
-    lots_df.to_csv(save_dir / "lots.csv", index=False)
-    print(f"Generated lots.csv with {N} lots in {save_dir}.")
+    lots_df.to_csv(LOTS_CSV_PATH, index=False)
+    print(f"Generated lots.csv with {N} lots in {LOTS_CSV_PATH.resolve()}.")
 
 
-def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
+def generate_yards() -> None:
     yards = []
     for _ in range(M):
         height = random.randint(int(0.7 * H), H)
@@ -46,20 +35,11 @@ def generate_yards(M: int, H: int, W: int, save_dir: Path) -> None:
         yards.append({"height": height, "width": width})
 
     yards_df = pd.DataFrame(yards)
-    yards_df.to_csv(save_dir / "yards.csv", index=False)
-    print(f"Generated yards.csv with {M} yards in {save_dir}.")
+    yards_df.to_csv(YARDS_CSV_PATH, index=False)
+    print(f"Generated yards.csv with {M} yards in {YARDS_CSV_PATH.resolve()}.")
 
 
 if __name__ == "__main__":
-    SEED = 0
-    N = 60
-    M = 2
-    H = 50
-    W = 20
-    T = 20
-    SAVE_DIR = Path("data")
-
     seed_everything(SEED)
-    save_params({"N": N, "M": M, "H": H, "W": W, "T": T}, SAVE_DIR)
-    generate_lots(N, H // 2, W // 2, T, SAVE_DIR)
-    generate_yards(M, H, W, SAVE_DIR)
+    generate_lots()
+    generate_yards()
