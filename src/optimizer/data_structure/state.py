@@ -1,72 +1,54 @@
-import json
-from pathlib import Path
-
 import numpy as np
 import pandas as pd
 
+from common.const import ASSIGNMENTS_CSV_PATH, LOTS_CSV_PATH, YARDS_CSV_PATH, M, T
 from optimizer.data_structure.lot import Lot
 from optimizer.data_structure.yard import Yard
 
 
 class State:
-    def __init__(self, save_dir: Path) -> None:
-        self.N: int
-        self.M: int
-        self.H: int
-        self.W: int
-        self.T: int
-        self.readParams(save_dir / "params.json")
-
+    def __init__(self) -> None:
         self.lots: list[Lot]
-        self.readLots(save_dir / "lots.csv")
+        self.readLots()
 
         self.yards: list[Yard]
-        self.readYards(save_dir / "yards.csv")
+        self.readYards()
 
-        self.cumulative_sums = np.zeros((self.M, self.T))
-        self.updateCumulativeSums()
+        self.cumulative_sums = np.zeros((M, T))
+        self.updateCumulativeSumsWithImos()
 
-        self.write_count = 0
+        self.stage = 0
 
-    def readParams(self, file_path: Path) -> None:
-        with open(file_path, "r") as file:
-            params = json.load(file)
-            self.N = params.get("N")
-            self.M = params.get("M")
-            self.H = params.get("H")
-            self.W = params.get("W")
-            self.T = params.get("T")
-
-    def readLots(self, file_path: Path) -> None:
-        df = pd.read_csv(file_path)
+    def readLots(self) -> None:
+        df = pd.read_csv(LOTS_CSV_PATH)
         self.lots = [
-            Lot(row["start_time"], row["end_time"], row["height"], row["width"], self.M)
+            Lot(row["start_time"], row["end_time"], row["height"], row["width"], M)
             for _, row in df.iterrows()
         ]
 
-    def readYards(self, file_path: Path) -> None:
-        df = pd.read_csv(file_path)
+    def readYards(self) -> None:
+        df = pd.read_csv(YARDS_CSV_PATH)
         self.yards = [Yard(row["height"], row["width"]) for _, row in df.iterrows()]
 
-    def updateCumulativeSums(self) -> None:
+    def updateCumulativeSumsWithImos(self) -> None:
         for lot in self.lots:
             self.cumulative_sums[lot.assignment][lot.start_time] += lot.area
-            if lot.end_time + 1 < self.T:
+            if lot.end_time + 1 < T:
                 self.cumulative_sums[lot.assignment][lot.end_time + 1] -= lot.area
 
         for i in range(len(self.cumulative_sums)):
             self.cumulative_sums[i] = np.cumsum(self.cumulative_sums[i])
 
-    def writeAssignments(self, outputs_dir: Path) -> None:
+    def writeAssignments(self) -> None:
         assignments = []
         for lot in self.lots:
             assignment = {"assignment": lot.assignment}
             assignments.append(assignment)
 
         assignments_df = pd.DataFrame(assignments)
-        assignments_df.to_csv(
-            outputs_dir / f"assignments_stage_{self.write_count}.csv", index=False
+        assignments_df.to_csv(ASSIGNMENTS_CSV_PATH(self.stage), index=False)
+        print(
+            f"Generated assignments_stage_{self.stage}.csv in {ASSIGNMENTS_CSV_PATH(self.stage).resolve()}."
         )
-        print(f"Generated assignments_stage_{self.write_count}.csv in {outputs_dir}.")
 
-        self.write_count += 1
+        self.stage += 1

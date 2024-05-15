@@ -1,13 +1,13 @@
 import random
-from pathlib import Path
 
 import numpy as np
 
+from common.const import N
 from optimizer.data_structure.state import State
 
 
 def insert(state: State) -> bool:
-    index = random.randint(0, state.N - 1)
+    index = random.randint(0, N - 1)
     cumulative_sums = np.max(
         state.cumulative_sums[
             :, state.lots[index].start_time : state.lots[index].end_time + 1
