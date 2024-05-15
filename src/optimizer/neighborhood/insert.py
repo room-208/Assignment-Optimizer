@@ -18,7 +18,7 @@ def insert(state: State) -> bool:
     )
     empty_areas[state.lots[index].assignment] += state.lots[index].area
 
-    new_assignments = np.where(empty_areas == np.max(empty_areas))
+    (new_assignments,) = np.where(empty_areas == np.max(empty_areas))
     if len(new_assignments) > 1:
         index_ = np.argmin(
             [

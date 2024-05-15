@@ -15,7 +15,7 @@ def greedy_by_sorted_area(state: State) -> State:
             state.cumulative_sums[:, lot.start_time : lot.end_time + 1], axis=1
         )
 
-        assignments = np.where(empty_areas == np.max(empty_areas))
+        (assignments,) = np.where(empty_areas == np.max(empty_areas))
         if len(assignments) > 1:
             index = np.argmin(
                 [
