@@ -11,8 +11,8 @@ def generate_lots() -> None:
     for _ in range(N):
         start_time = random.randint(0, T - 1)
         end_time = random.randint(start_time, T - 1)
-        lot_height = random.randint(1, H)
-        lot_width = random.randint(1, W)
+        lot_height = random.randint(1, H // 2)
+        lot_width = random.randint(1, W // 2)
         lots.append(
             {
                 "start_time": start_time,
