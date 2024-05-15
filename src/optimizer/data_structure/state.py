@@ -31,6 +31,8 @@ class State:
         self.yards = [Yard(row["height"], row["width"]) for _, row in df.iterrows()]
 
     def updateCumulativeSumsWithImos(self) -> None:
+        self.cumulative_sums = np.zeros((M, T))
+
         for lot in self.lots:
             self.cumulative_sums[lot.assignment][lot.start_time] += lot.area
             if lot.end_time + 1 < T:
