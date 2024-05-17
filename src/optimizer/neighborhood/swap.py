@@ -31,17 +31,8 @@ def swap(state: State) -> bool:
         new_cumulative_sums[state.lots[index2].assignment][t] -= state.lots[index2].area
         new_cumulative_sums[state.lots[index1].assignment][t] += state.lots[index2].area
 
-    start_time = min(state.lots[index1].start_time, state.lots[index2].start_time)
-    end_time = max(state.lots[index1].end_time, state.lots[index2].end_time)
-
-    empty_areas = yard_areas - np.max(
-        state.cumulative_sums[:, start_time : end_time + 1],
-        axis=1,
-    )
-    new_empty_areas = yard_areas - np.max(
-        new_cumulative_sums[:, start_time : end_time + 1],
-        axis=1,
-    )
+    empty_areas = yard_areas - np.max(state.cumulative_sums, axis=1)
+    new_empty_areas = yard_areas - np.max(new_cumulative_sums, axis=1)
 
     score = (
         empty_areas[state.lots[index1].assignment]
