@@ -24,4 +24,6 @@ H = 50
 W = 20
 T = 20
 
+PENALTY_ALPHA = 2
+
 NUM_COLS = 2

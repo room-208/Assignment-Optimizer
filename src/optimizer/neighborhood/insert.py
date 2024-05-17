@@ -2,8 +2,9 @@ import random
 
 import numpy as np
 
-from common.const import M, N, T
+from common.const import PENALTY_ALPHA, M, N, T
 from optimizer.data_structure.state import State
+from optimizer.neighborhood.penalty import pelanty
 
 
 def insert(state: State) -> bool:
@@ -17,6 +18,7 @@ def insert(state: State) -> bool:
         axis=1,
     )
     empty_areas[state.lots[index].assignment] += state.lots[index].area
+    empty_areas = pelanty(empty_areas, PENALTY_ALPHA)
 
     (new_assignments,) = np.where(empty_areas == np.max(empty_areas))
     if len(new_assignments) > 1:

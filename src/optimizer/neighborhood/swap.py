@@ -3,8 +3,9 @@ from copy import deepcopy
 
 import numpy as np
 
-from common.const import M, N, T
+from common.const import PENALTY_ALPHA, M, N, T
 from optimizer.data_structure.state import State
+from optimizer.neighborhood.penalty import pelanty
 
 
 def get_pair_lot_indice(state: State) -> tuple[int, int]:
@@ -33,6 +34,9 @@ def swap(state: State) -> bool:
 
     empty_areas = yard_areas - np.max(state.cumulative_sums, axis=1)
     new_empty_areas = yard_areas - np.max(new_cumulative_sums, axis=1)
+
+    empty_areas = pelanty(empty_areas, PENALTY_ALPHA)
+    new_empty_areas = pelanty(new_empty_areas, PENALTY_ALPHA)
 
     score = (
         empty_areas[state.lots[index1].assignment]
